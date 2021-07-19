@@ -1,26 +1,28 @@
-const days = document.querySelector(".days-timer");
-const hours = document.querySelector(".hours-timer");
-const minutes = document.querySelector(".minutes-timer");
-const seconds = document.querySelector(".seconds-timer");
+const countdown = () => {
+  const endDate = new Date("July 30, 2021 00:00:00").getTime()
+  const now = new Date().getTime()
 
-function getData() {
-  let futureDate = new Date("2021-08-04 00:00"),
-    nowDate = new Date(),
-    timeSeconds = Math.abs(futureDate - nowDate) / 1000,
-    timeDays = Math.floor(timeSeconds / 60 / 60 / 24),
-    timeHours = Math.floor((timeSeconds / 60 / 60) % 24),
-    timeMinutes = Math.floor((timeSeconds / 60) % 60),
-    timeSecond = Math.floor(timeSeconds % 60),
-    milliSeconds = Math.round((timeSeconds - Math.floor(timeSeconds)) * 1000);
+  const difference = endDate - now
+  
+  const seconds = 1000
+  const minutes = seconds * 60
+  const hours = minutes * 60
+  const days = hours * 24
 
-  days.innerHTML = timeDays;
-  hours.innerHTML = timeHours;
-  minutes.innerHTML = timeMinutes;
-  seconds.innerHTML = timeSecond;
+  let timeDays = Math.floor(difference / days)
+  let timeHours = Math.floor((difference % days) / hours)
+  let timeMinutes = Math.floor((difference % hours) / minutes)
+  let timeSeconds = Math.floor((difference % minutes) / seconds)
+
+  timeHours = timeHours < 10 ? "0" + timeHours : timeHours
+  timeMinutes = timeMinutes < 10 ? "0" + timeMinutes : timeMinutes
+  timeSeconds = timeSeconds < 10 ? "0" + timeSeconds : timeSeconds
+
+  document.getElementById("days").innerHTML = timeDays
+  document.getElementById("hours").innerHTML = timeHours
+  document.getElementById("minutes").innerHTML = timeMinutes
+  document.getElementById("seconds").innerHTML = timeSeconds
+  
 }
 
-const interval = setInterval(() => {
-  getData();
-}, 500);
-
-document.addEventListener("DOMContentLoaded", interval);
+setInterval(countdown, 1000)
